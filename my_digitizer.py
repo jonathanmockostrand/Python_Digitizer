@@ -1,4 +1,4 @@
-# Samira Ardani
+# Group Project
 # oct-24-2013
 # My Digitizer
 
