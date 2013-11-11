@@ -108,6 +108,33 @@ def import_file(event):
         
 import_button.on_clicked(import_file)
 
+################################################################################
+# Save Bottun:# save x and y data by user as a text file 
+################################################################################
+
+
+iax = plt.axes([0.01,0.05,0.1,0.03])
+save_button = Button(iax,'Save File',image = None, color = '0.95',hovercolor = '0.65')
+
+def save_file(event):
+ 
+    root = Tkinter.Tk()
+    root.withdraw()
+    #file_path = tkFileDialog.asksaveasfile(a, title="Save File", filetypes=[("txt file", ".csv"), ("All files", ".*")]
+    file_path = tkFileDialog.asksaveasfile()
+    file_path.writelines('This is the output file of the digitizer\n')
+    file_path.writelines('*- Column 0 = x data\n')
+    file_path.writelines('*- Column 1 = y data\n')
+    x,y= calculation(xmin, xmax, ymin, ymax, xaxis, yaxis, logx, logy, xdata, ydata)    
+    np.savetxt(file_path,np.hstack([x]).reshape(-1,1),delimiter=' ',fmt=['%f']) 
+    np.savetxt(file_path,np.hstack([y]).reshape(-1,1),delimiter=' ',fmt=['%f'])
+      
+    file_path.close()
+    return()
+
+
+        
+save_button.on_clicked(save_file)
 ###############################################################################
 # Openning a Matplotlib page:
 ###############################################################################
