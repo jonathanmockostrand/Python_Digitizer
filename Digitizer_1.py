@@ -120,14 +120,14 @@ def save_file(event):
  
     root = Tkinter.Tk()
     root.withdraw()
-    #file_path = tkFileDialog.asksaveasfile(a, title="Save File", filetypes=[("txt file", ".csv"), ("All files", ".*")]
+    
     file_path = tkFileDialog.asksaveasfile()
     file_path.writelines('This is the output file of the digitizer\n')
     file_path.writelines('*- Column 0 = x data\n')
     file_path.writelines('*- Column 1 = y data\n')
     x,y= calculation(xmin, xmax, ymin, ymax, xaxis, yaxis, logx, logy, xdata, ydata)    
-    np.savetxt(file_path,np.hstack([x]).reshape(-1,1),delimiter=' ',fmt=['%f']) 
-    np.savetxt(file_path,np.hstack([y]).reshape(-1,1),delimiter=' ',fmt=['%f'])
+    np.savetxt(file_path,np.column_stack([x,y]).reshape(-1,2),delimiter=' ',fmt=['%f','%f']) 
+    
       
     file_path.close()
     return()
