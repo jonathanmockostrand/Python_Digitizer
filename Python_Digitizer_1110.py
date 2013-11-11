@@ -17,56 +17,58 @@ Texas A&M University
 
 import numpy as np
 import matplotlib.pyplot as plt
-import Tkinter,tkFileDialog 
+import Tkinter
+import tkFileDialog 
 from matplotlib.widgets import Button, RadioButtons, CheckButtons
 
 
 ################################################################################
 # Functions for GUI
 ################################################################################
-def import_button(event):
+def import_file(event):
     '''
-    This is a button to import the image
+    This is a Import button to import the image
     '''
     root = Tkinter.Tk()
     root.withdraw()
     file_path = tkFileDialog.askopenfilename()
-    im = plt.subplot(111).imshow(np.flipud(plt.imread(str(file_path))), origin = 'lower')
+    im = plt.subplot(111).imshow(np.flipud(plt.imread(str(file_path))),origin='lower')
+    #plt.show()
     
-    frame1 = plt.gca()    
+    frame1 = plt.gca()
     for xlabel_i in frame1.axes.get_xticklabels():
         xlabel_i.set_visible(False)
     for ylabel_i in frame1.axes.get_yticklabels():
-        ylabel_i.set_visible(False)     
-                 
+        ylabel_i.set_visible(False)
+        
  
-def x_scale_button(label):
+def x_scale_button(event):
     '''
     This is a radio button to select the X-axis scale
     '''    
-    if label== 'Linear': 
+    if event== 'Linear': 
         plt.title( 'linear', loc = 'right')
-        logx == 0
-    elif label==  'Log': 
+        logx = 0
+    elif event==  'Log': 
         plt.title( 'log', loc='right')
-        logx == 1
+        logx = 1
 
 
-def y_scale_button(label):
+def y_scale_button(event):
     '''
     This is a radio button to select the Y-axis scale
     '''    
-    if label == 'Linear': 
+    if event == 'Linear': 
         plt.title( 'linear', loc = 'right')
-        logy == 0
-    elif label==  'Log': 
+        logy = 0
+    elif event == 'Log': 
         plt.title( 'log', loc='right')
-        logy == 1
+        logy = 1
         
         
 def calculate_button(event):
     '''
-    This is a button to calculate x & y value and plot the results
+    This is a 'Calculation' button to calculate x & y value and plot the results
     '''
     x,y= calculation(xmin, xmax, ymin, ymax, xaxis, yaxis, logx, logy, xdata, ydata)
     print x,y
@@ -75,9 +77,9 @@ def calculate_button(event):
     plt.show()
 
 
-def save_button(event):
+def save_file(event):
     '''
-    This is a button to save the results as a file
+    This is a 'Save' button to save the results as a file
     
     '''
     root = Tkinter.Tk()
@@ -162,6 +164,21 @@ ydata = []
 # Setup the window size
 fig = plt.figure('Figure', facecolor='w', edgecolor='w')
 
+# Import Button
+import_ax = plt.axes([0.01, 0.25, 0.15, 0.05])
+import_button = Button(import_ax,'Import File',image = None, color = '0.95',hovercolor = '0.65')
+import_button.on_clicked(import_file)
+
+# Calculation Button
+cal_ax = plt.axes([0.01, 0.20, 0.15, 0.05])
+cal_button = Button(cal_ax,'Calculate',image=None,color='0.95',hovercolor='0.65')
+cal_button.on_clicked(calculate_button)
+
+# Save Button
+save_ax = plt.axes([0.01, 0.15, 0.15, 0.05])
+save_button = Button(save_ax,'Save',image = None,color='0.95',hovercolor='0.65')    
+save_button.on_clicked(save_file)
+
 # X_Scale Button
 logx = 0
 xax = plt.axes([0.01, 0.5, 0.15, 0.1]) 
@@ -173,21 +190,6 @@ logy = 0
 yax = plt.axes([0.01, 0.4, 0.15, 0.1]) 
 yradio = RadioButtons(yax,('Y-Linear','Y-Log'))
 yradio.on_clicked(y_scale_button)
-
-# Import Button
-import_ax = plt.axes([0.01, 0.25, 0.15, 0.05])
-import_button = Button(import_ax,'Import',image=None,color='0.95',hovercolor='0.65')        
-import_button.on_clicked(import_button)
-
-# Calculation Button
-cal_ax = plt.axes([0.01, 0.20, 0.15, 0.05])
-cal_button = Button(cal_ax,'Calculate',image=None,color='0.95',hovercolor='0.65')
-cal_button.on_clicked(calculate_button)
-
-# Save Button
-save_ax = plt.axes([0.01, 0.15, 0.15, 0.05])
-save_button = Button(save_ax,'Save',image = None,color='0.95',hovercolor='0.65')    
-save_button.on_clicked(save_button)
 
 # Openning a Matplotlib page
 plt.show()
