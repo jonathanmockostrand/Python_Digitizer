@@ -57,7 +57,8 @@ def calculate_button(event):
     else: 
         plt.loglog(x, y, '-o')
         
-    plt.grid()
+    plt.grid(b=True, which='major', linestyle='-')
+    plt.grid(b=True, which='minor', linestyle=':')
     plt.title('Plotting the result by Python Digitizer')
                                                 
 
